@@ -1,0 +1,66 @@
+<nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+  <div class="scrollbar-inner">
+    <!-- Brand -->
+    <div class="sidenav-header  align-items-center">
+      
+
+
+      <div class="d-flex justify-content-center align-items-center">
+        <a class="navbar-brand px-0" href="/">
+            <img src="/static/assets/img/brand/smart-bio-stream-logo.png" class="navbar-brand-img px-0">
+        </a>
+        <span class="font-weight-bold ml-1">ServerBioStream</span>
+      </div>
+    
+    </div>
+    <div class="navbar-inner">
+      <!-- Collapse -->
+      <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+        <!-- Nav items -->
+        <ul class="navbar-nav">
+           <!-- Data analysis view -->
+          <li class="nav-item">
+            <a class="nav-link {% if 'index' in segment %} active {% endif %}" href="{% url 'get-data' %}">
+              <i class="ni ni-tv-2 text-primary"></i>
+              <span class="nav-link-text">Experiments</span>
+            </a>
+          </li>
+
+           <!-- Administrator views -->
+          {% if request.user.groups.all.0.name == "Administrator" %}
+            <li class="nav-item">
+              <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="{% url 'users_list' %}">
+                <i class="ni ni-single-02 text-primary"></i>
+                <span class="nav-link-text">Users</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="{% url 'new_user' %}">
+                <i class="ni ni ni-fat-add text-primary text-primary"></i>
+                <span class="nav-link-text">New user</span>
+              </a>
+            </li>
+            {% endif %}
+        </ul>
+        <!-- Divider -->
+        <hr class="my-3">
+        <!-- Navigation-->
+        <ul class="navbar-nav mb-md-3">
+           <!-- User views -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile' %}">
+              <i class="ni ni-circle-08 text-primary"></i>
+              <span class="nav-link-text">My profile</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">
+              <i class="ni ni-user-run text-primary"></i>
+              <span class="nav-link-text">Logout</span>
+            </a>
+          </li>         
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

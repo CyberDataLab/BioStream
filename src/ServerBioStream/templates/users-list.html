@@ -1,0 +1,91 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Users management {% endblock title %}
+
+{% block content %}
+
+  <!--View title-->
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">User management</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header border-0 d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Users</h3>
+            <!--Search and select-->
+            <div class="d-flex">
+              <input type="text" id="searchInput" class="form-control mr-2" placeholder="Search users...">
+              <select id="rowsPerPage" class="form-control">
+                <option value="1" selected>1</option>
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush" id="userTable">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col" class="sort" data-sort="avatar">Avatar</th>
+                  <th scope="col" class="sort" onclick="sortTable(1)">Id</th>
+                  <th scope="col" class="sort" onclick="sortTable(2)">Username</th>
+                  <th scope="col" class="sort" onclick="sortTable(3)">First name</th>
+                  <th scope="col" class="sort" onclick="sortTable(4)">Last name</th>
+                  <th scope="col" class="sort" onclick="sortTable(5)">Email</th>
+                  <th scope="col" class="sort" onclick="sortTable(6)">Role</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody class="list" id="userTableBody">
+                {% for user in users %}
+                <tr>
+                  <td><img class="rounded-circle" style="width: 50px; height: 50px;" src="{{ user.user.profile.avatar.url }}" alt="Avatar"></td>
+                  <td>{{ user.user.id }}</td>
+                  <td>{{ user.user.username }}</td>
+                  <td>{{ user.user.first_name }}</td>
+                  <td>{{ user.user.last_name }}</td>
+                  <td>{{ user.user.email }}</td>
+                  <td>{{ user.group }}</td>
+                  <td>
+                    <button id="delete-button" class="btn btn-outline-danger p-0 mb-0 align-middle delete-button"
+                        data-id="{{ user.user.username }}" title="Delete" style="width: 40px; height: 40px;">
+                        <i class="fas fa-trash-alt fa-lg"></i>
+                    </button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Container with paging and add user button -->
+          <div class="d-flex justify-content-between align-items-center mt-3 mb-3 ml-4 mr-4">
+            <a id="new-user" class="btn btn-outline-primary" href="{% url 'new_user' %}">Add user</a>
+            <nav>
+              <ul class="pagination" id="pagination">
+              </ul>
+            </nav>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../static/assets/js/users-list.js"></script>
+{% endblock content %}

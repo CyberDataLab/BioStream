@@ -1,0 +1,168 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Experiments {% endblock title %}
+
+{% block content %}
+
+<!--View title-->
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"> Experiments analysis</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <!--Experiments card-->
+      <div class="card">
+        <!--Search and table page length-->
+        <div class="card-header border-0 d-flex justify-content-between align-items-center">
+          <h3 class="mb-0">Experiments: {{ experiments|length }} </h3>
+          <div class="d-flex">
+            <input type="text" id="searchInputExperiments" class="form-control mr-2" placeholder="Search">
+            <select id="rowsPerPageExperiments" class="form-control">
+              <option value="1">1</option>
+              <option value="5" selected>5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+        </div>
+        <!--Experiments table-->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush" id="experimentsTable">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Select</th>
+                <th scope="col">Experiment ID</th>
+                <th scope="col">Start date</th>
+                <th scope="col">End date</th>
+                <th scope="col">Measurement types</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody id="experimentsTableBody">
+              {% for experiment in experiments %}
+              <tr>
+                <td><input type="checkbox" class="experiment-checkbox" value="{{ experiment.experiment }}"></td>
+                <td>{{ experiment.experiment|slice:":15" }}{% if experiment.experiment|length > 15 %}...{% endif %}</td>
+                <td>{{ experiment.start_date|date:"d/m/Y H:i:s" }}</td>
+                <td>{{ experiment.end_date|date:"d/m/Y H:i:s" }}</td>
+                <td>{{ experiment.types |linebreaksbr }}</td>
+                <td>
+                  <button class="delete-button btn btn-outline-danger p-0 mb-0 align-middle"
+                    data-id="{{ experiment.experiment }}" title="Delete" style="width: 40px; height: 40px;">
+                    <i class="fas fa-trash-alt fa-lg"></i>
+                  </button>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="6" class="text-center">No experiments found.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!--Refresh and export buttons for experiments table-->
+        <div class="d-flex justify-content-between align-items-center mt-3 mb-3 ml-4 mr-4">
+          <div class="d-flex align-items-center">
+            <button class="btn btn-primary mr-2" onclick="refreshExperimentsTable()">
+              <i class="fas fa-redo-alt fa-lg"></i>
+            </button>
+            <button class="btn btn-primary" onclick="export_experiments()">
+              <i class="fas fa-download fa-lg"></i>
+            </button>
+          </div>
+          <!--Pagination buttons-->
+          <nav>
+            <ul class="pagination" id="paginationExperiments"></ul>
+          </nav>
+        </div>
+      </div>
+
+      <!--Measurements card-->
+      <div class="card mt-4">
+        <!--Display the number of measurements-->
+        <div class="card-header border-0 d-flex justify-content-between align-items-center">
+          <h3 class="mb-0">Measurements:
+            <span id="measurements-count" data-length="{{ measurements|length }}">
+              {{ measurements|length }}
+            </span>
+          </h3>
+          <div class="d-flex">
+            <!--Search and table page length-->
+            <input type="text" id="searchInputMeasurements" class="form-control mr-2" placeholder="Search">
+            <select id="rowsPerPageMeasurements" class="form-control">
+              <option value="1">1</option>
+              <option value="5" selected>5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+        </div>
+        <!--Measurements table-->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush" id="measurementsTable">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Experiment</th>
+                <th scope="col">Timestamp</th>
+                <th scope="col">Type</th>
+                <th scope="col">Value</th>
+              </tr>
+            </thead>
+            <tbody id="measurementsTableBody">
+              {% for measurement in measurements %}
+              <tr>
+                <td>{{ measurement.experiment }}</td>
+                <td>{{ measurement.timestamp|date:"Y-m-d H:i:s.v" }}</td>
+                <td>{{ measurement.type }}</td>
+                <td>{{ measurement.value }}</td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="4" class="text-center">Select an experiment.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!--Refresh and export buttons for measurments table-->
+        <div class="d-flex justify-content-between align-items-center mt-3 mb-3 ml-4 mr-4">
+          <div class="d-flex align-items-center">
+            <button class="btn btn-primary mr-2" onclick="refreshMeasurementsTable()">
+              <i class="fas fa-redo-alt fa-lg"></i>
+            </button>
+            <button class="btn btn-primary" onclick="export_measurements()">
+              <i class="fas fa-download fa-lg"></i>
+            </button>
+          </div>
+          <!--Pagination buttons-->
+          <nav>
+            <ul class="pagination" id="paginationMeasurements"></ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../static/assets/js/view-data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@latest/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@latest/dist/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+
+{% endblock content %}

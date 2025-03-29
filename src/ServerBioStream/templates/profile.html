@@ -1,0 +1,144 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} My profile {% endblock title %}
+
+{% block content %}
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">My profile</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header pb-0 px-0 mb-n3">
+            <h5 class="px-3">Edit Profile</h5>
+          </div>
+          <div class="card-body">
+            {% if error %}
+            <p style="color: black;">{{ error }}</p>
+            {% endif %}
+            <!-- Profile update form -->
+            <form role="form" action="{% url 'profile' %}" method="post">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="username" class="label">Username</label>
+                    <input class="form-control" type="text" id="username" value="{{ username }}" readonly>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="email" class="label">Email address</label>
+                    <input class="form-control" type="email" id="email" name="email"  value="{{ email }}">
+                  </div>
+                </div>
+                <div class="col-md-6 mt-1">
+                  <div class="form-group">
+                    <label for="name" class="label">First name</label>
+                    <input class="form-control" type="text" id="name" name="name" value="{{ name }}">
+                  </div>
+                </div>
+                <div class="col-md-6 mt-1">
+                  <div class="form-group">
+                    <label for="surname" class="label">Last name</label>
+                    <input class="form-control" type="text" id="surname" name="surname" value="{{ surname }}">
+                  </div>
+                </div>
+                <div class="col-md-6 mt-1">
+                  <div class="form-group">
+                    <label for="oldp" class="label">Old password</label>
+                    <input class="form-control" type="password" id="oldp" name="oldp">
+                  </div>
+                </div>
+                <div class="col-md-6 mt-1">
+                  <div class="form-group">
+                    <label for="newp" class="label">New password</label>
+                    <input class="form-control" type="password" id="newp" name="newp">
+                  </div>
+                </div>
+                
+                <div class="col-auto mt-3">
+                  <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!--Right card-->
+      <div class="col-md-4">
+        <div class="card card-profile pt-2">
+          <div class="card-header pb-0 px-0 mb-n3">
+            <h5 class="px-3">Avatar</h5>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-8 col-lg-8 position-relative">
+              <div class="mt-3 mb-3 text-center">
+                <!-- Avatar image-->
+                <img id="avatar-img" class="mx-auto d-block rounded-circle" style="width: 230px; height: 230px;"
+                  src="{{ avatar.url }}" alt="Avatar">
+                <!-- Edition -->
+                <label for="avatar-img-selector" class="position-absolute" style="top: 10px; right: -5px;">
+                  <input id="avatar-img-selector" type="file" style="display:none" />
+                  <div class="change-pass btn btn d-flex align-items-center justify-content-center"
+                    style="width: 40px; height: 40px; border-radius: 50%;" title="Change avatar">
+                    <i class="fas fa-edit"></i>
+                  </div>
+                </label>
+                <div> {{username}} </div>
+                <div> {{role}} </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+
+  // Update the user avatar
+  document.getElementById('avatar-img-selector').addEventListener('change', function () {
+      const fileInput = this;
+      const file = fileInput.files[0];
+      if (file) {
+          const formData = new FormData();
+          formData.append('avatar', file);
+
+          fetch("update-avatar-ajax/", {
+              method: 'POST',
+              headers: {
+                  'X-CSRFToken': '{{ csrf_token }}'
+              },
+              body: formData
+          })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.status === 'success') {
+                      document.getElementById('avatar-img').src = data.avatar_url;
+                      alert('Avatar successfully updated');
+                  } else {
+                      alert('Error: ' + data.message);
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  alert('An error occurred while uploading the avatar');
+              });
+      } else {
+          alert('Please select a valid image');
+      }
+  });
+  </script>
+  {% endblock content %}

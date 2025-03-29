@@ -1,0 +1,91 @@
+{% extends 'layouts/base-fullscreen.html' %}
+
+{% block title %} Login {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+          <div class="card bg-secondary border-0 mb-0">
+            <div class="card-header bg-transparent pb-3">
+                <div class="text-muted text-center mt-2"><small>Sign in only for registered users</small></div>
+                <div class="btn-wrapper text-center">
+                </div>
+              </div>
+              <div class="card-body px-lg-5 py-lg-5">
+            
+              <form role="form" action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                
+                <!-- Mostrar mensajes de error si existen -->
+                {% if messages %}
+                    <div class="alert alert-danger">
+                        <ul>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                <div class="text-center text-muted mb-2">
+                  <small>Introduce your credentials</small>
+                </div>
+                <div class="form-group mb-3">
+                  <div class="input-group input-group-merge input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Username" name="username" value="{{ request.POST.username }}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-merge input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                    <input class="form-control" id="password" placeholder="Password" type="password" name="password">
+                  </div>
+                  <!-- Checkbox to show/hide password -->
+                  <div class="custom-control custom-checkbox mt-3">
+                    <input type="checkbox" class="custom-control-input" id="showPassword">
+                    <label class="custom-control-label" for="showPassword">
+                      <span class="text-muted">Show Password</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Sign in</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-6">
+              <a href="https://cyberdatalab.um.es/" class="text-light"><small>Developed by CyberDataLab</small></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script>
+  // JavaScript to toggle password visibility using checkbox
+  const showPasswordCheckbox = document.getElementById('showPassword');
+  const passwordField = document.getElementById('password');
+
+  showPasswordCheckbox.addEventListener('change', function () {
+    // Toggle the type attribute based on checkbox state
+    const type = showPasswordCheckbox.checked ? 'text' : 'password';
+    passwordField.type = type;
+  });
+</script>
+{% endblock javascripts %}

@@ -1,0 +1,129 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} New user {% endblock title %}
+
+{% block content %}
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">New user profile</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header pb-0 px-0 mb-n3">
+            <h5 class="px-3">Edit Profile</h5>
+          </div>
+          <div class="card-body">
+            {% if error %}
+            <p style="color: black;">{{ error }}</p>
+            {% endif %}
+            <!-- Profile form -->
+            <form role="form" action="{% url 'new_user' %}" method="post">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="username" class="label">Username</label>
+                    <input class="form-control" type="text" id="username" name="username" value="{{ username }}">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="email" class="label">Email address</label>
+                    <input class="form-control" type="email" id="email" name="email" value="{{ email }}">
+                  </div>
+                </div>
+                <div class="col-md-6 mt-1">
+                  <div class="form-group">
+                    <label for="name" class="label">First name</label>
+                    <input class="form-control" type="text" id="name" name="name" value="{{ name }}">
+                  </div>
+                </div>
+                <div class="col-md-6 mt-1">
+                  <div class="form-group">
+                    <label for="surname" class="label">Last name</label>
+                    <input class="form-control" type="text" id="surname" name="surname" value="{{ surname }}">
+                  </div>
+                </div>
+                <div class="col-md-6 mt-1">
+                  <div class="form-group">
+                    <label for="oldp" class="label">Password</label>
+                    <input class="form-control" type="password" id="password1" name="password1">
+                  </div>
+                </div>
+                <div class="col-md-6 mt-1">
+                  <div class="form-group">
+                    <label for="password2" class="label">Repeat the password</label>
+                    <input class="form-control" type="password" id="password2" name="password2">
+                  </div>
+                </div>
+                <div class="col-md-6 mt-1">
+                    <div class="form-group">
+                        <label for="rol" class="label">Role</label>
+                        <select class="form-control" id="role" name="role">
+                          <option value="Administrator">Administrator</option>
+                          <option value="Researcher">Researcher</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-1 d-flex align-items-center">
+                </div>                  
+                <div class="col-md-6 mt-1 d-flex align-items-center">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!--Right card-->
+      <div class="col-md-4">
+        <div class="card card-profile pt-2">
+          <div class="card-header pb-0 px-0 mb-n3">
+            <h5 class="px-3">Avatar</h5>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-8 col-lg-8 position-relative">
+              <div class="mt-3 mb-3 text-center">
+                <!-- Avatar image-->
+                <img id="avatar-img" class="mx-auto d-block rounded-circle" 
+                    style="width: 230px; height: 230px;" 
+                    src="{{ avatar.url|default:'images/profile.png' }}" 
+                    alt="Avatar">
+                </img>
+                <div> {{username}} </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+
+//Function to get the csrf token of Django
+function getCsrfToken() {
+    let csrfToken = null;
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [name, value] = cookie.split('=');
+        if (name.trim() === 'csrftoken') {
+            csrfToken = value;
+            break;
+        }
+    }
+    return csrfToken;
+}
+  </script>
+  {% endblock content %}
