@@ -67,6 +67,7 @@ SmartBioStream/
 │-- docs/            # Documentation files
 │-- src/             # Source code
 │-- README.md        # This README file
+│-- LICENSE.md       # LICENSE file
 ```
 
 
