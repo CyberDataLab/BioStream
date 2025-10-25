@@ -1,18 +1,17 @@
-# SmartBioStream
+# BioStream: An open-source solution for biometric data collection through smartwatches
 
 <p align="center">
   <img src="docs/images/logo.png" alt="SmartBioStream" width="100">
 </p>
 
 ## Description
+BioStream constitutes an integrated infrastructure for biometric research using affordable wearable devices. It enables researchers to collect and analyze physiological data without requiring specialized equipment, combining a data acquisition application (SmartBioStream) with a data management platform (ServerBioStream).
 
-SmartBioStream is a Wear OS application that enables the collection of biometric data through affordable, user-friendly smartwatches. In addition, we provide a web platform, ServerBioStream, to receive, store, and download the data sent by the smartwatches. The combination of both applications supports conducting biometric studies without needing expensive and sophisticated research-oriented devices. SmartBioStream can also transmit biometrics to other systems for their analysis, such as educational and workplace platforms. The flexibility, ease of use, and cost-effectiveness of both applications make them valuable tools for democratizing biometric data collection and analysis.
+SmartBioStream is a Wear OS application that facilitates the collection of biometric data through user-friendly smartwatches. In addition, we provide a web platform, ServerBioStream, to receive, store, and download the data sent by the smartwatches. The combination of both applications supports conducting biometric studies without needing expensive and sophisticated research-oriented devices. SmartBioStream can also transmit biometrics to other systems for their analysis, such as educational and workplace platforms. The flexibility, ease of use, and cost-effectiveness of both applications make them valuable tools for democratizing biometric data collection and analysis.
 
 ## Features
 ### SmartBioStream
-SmartBioStream is a Wear OS application that enables the collection of biometric data through affordable, user-friendly smartwatches. In addition, we provide a web platform, ServerBioStream, to receive, store, and download the data sent by the smartwatches. The combination of both applications supports conducting biometric studies without needing expensive and sophisticated research-oriented devices. SmartBioStream can also transmit biometrics to other systems for their analysis, such as educational and workplace platforms. 
-
-SmartBioStream' s user interface was designed to be simple and intuitive, especially the views of the end-users. While administrators and researchers may have more experience with the application, end-users, such as case study participants, probably do not. Consequently, we focused on handling complexities within the application code to provide a better user experience. This application integrates three main functionalities:
+SmartBioStream is an application for smartwatches running Wear OS (Android for smartwatches), providing a simple and accessible means to collect biometric data. SmartBioStream' s user interface was designed to be simple and intuitive, especially the views of the end-users. While administrators and researchers may have more experience with the application, end-users, such as case study participants, probably do not. Consequently, we focused on handling complexities within the application code to provide a better user experience. This application integrates three main functionalities:
 
 - **Options**. This functionality enables users to adjust settings related to communication with the server. These settings should be set by researchers or administrators, not by the end-users. This configuration is stored on the smartwatch and remains saved even if the application is closed. The views of this functionality enable the selection of the server's IP address, the port, the protocol (HTTP or HTTPS), whether the application should verify the HTTPS certificate, and the authentication method (username and password or identifier).
 
@@ -32,8 +31,6 @@ ServerBioStream is a Django web application that receives and stores the data co
 -	**Data monitoring**. Researchers and administrators can visualize the data received and stored for each experiment. This feature also helps ensure the proper collection of the biometrics during the experiments. It is worth noting that SmartBioStream queues several measurements in the same data transmission, which means that there may be a delay of less than a minute in the data display.
 
 -	**Data export**. The users of this platform can download the data collected from each experiment in CSV, XLSX, and PDF formats. This functionality enables the researchers to develop their specific analyses with the necessary software, such as Excel and Python.
-
-
 
 
 
