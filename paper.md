@@ -8,7 +8,7 @@ tags:
   - wearable devices
 authors:
   - name: Mariano Albaladejo González
-    orcid: 0000-0002-8931-12482
+    orcid: 0000-0002-8931-1248
     affiliation: 1
 affiliations:
  - name: University of Murcia, Spain
